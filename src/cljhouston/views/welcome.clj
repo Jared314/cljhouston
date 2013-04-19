@@ -1,18 +1,13 @@
 (ns cljhouston.views.welcome
   (:require [net.cgrand.enlive-html :refer :all]
-            [dieter.core :as dieter]
-            [clojure.string :as string]
-            [clojure.pprint :as pp]))
+            [dieter.core :as dieter]))
 
-(def asset-url-attr {:link :href :script :src :img :src})
-(defn get-asset-name [value]
-       (string/replace value #"^/assets/" ""))
-
+(def asset-url-attr {:link :href :script :src :img :src :a :href})
+(def asset-selector (set (map #(vector (vector (first %) (attr-starts (second %) "/assets/"))) asset-url-attr)))
+(defn get-asset-name [value] (.substring value 8))
 (defn replace-asset-url [node]
       (let [attrname (-> node :tag asset-url-attr)]
            (assoc-in node [:attrs attrname] (dieter/link-to-asset (get-asset-name (-> node :attrs attrname))))))
-
-(def asset-selector (set (map #(vector (vector (first %) (attr-starts (second %) "/assets/"))) asset-url-attr)))
 
 (deftemplate base-view "public/base.html" [body]
   [:#content]
