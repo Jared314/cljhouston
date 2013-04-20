@@ -1,10 +1,10 @@
-(ns cljhouston.server
-  (:require [ring.adapter.jetty :refer :all]
-            [compojure.core :refer :all]
+(ns cljhouston.core
+  (:require [ring.adapter.jetty :refer [run-jetty]]
+            [compojure.core :refer [defroutes GET]]
             [compojure.route :as route]
             [compojure.handler :as handler]
             [dieter.core :as dieter]
-            [net.cgrand.enlive-html :refer :all]))
+            [net.cgrand.enlive-html :refer [deftemplate defsnippet content clone-for attr-starts]]))
 
 (def dieter-config-options {
   :engine :v8

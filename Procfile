@@ -1,1 +1,1 @@
-web: lein with-profile production trampoline run -m cljhouston.server $PORT production
+web: lein with-profile production trampoline run -m cljhouston.core $PORT production

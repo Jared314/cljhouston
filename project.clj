@@ -8,5 +8,5 @@
                  [ring/ring-jetty-adapter "1.1.7"]
                  [enlive "1.1.1"]
                  [dieter "0.3.0"]]
-  :main cljhouston.server
+  :main cljhouston.core
   :min-lein-version "2.0.0")
