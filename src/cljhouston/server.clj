@@ -18,8 +18,8 @@
 (defn dieter-replace-asset-url [config]
       (letfn [(get-asset-name [value] (.substring value 8))]
              (fn [node]
-                 (let [attrname (-> node :tag asset-url-attr)]
-                      (assoc-in node [:attrs attrname] (dieter/link-to-asset (get-asset-name (-> node :attrs attrname)) config))))))
+                 (let [attrname (asset-url-attr (node :tag))]
+                      (assoc-in node [:attrs attrname] (dieter/link-to-asset (get-asset-name (get-in node [:attrs attrname])) config))))))
 
 (deftemplate base-view "base.html" [body]
   [:#content]
