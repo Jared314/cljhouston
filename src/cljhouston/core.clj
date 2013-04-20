@@ -19,7 +19,7 @@
       (letfn [(get-asset-name [value] (.substring value 8))]
              (fn [node]
                  (let [attrname (asset-url-attr (node :tag))]
-                      (assoc-in node [:attrs attrname] (dieter/link-to-asset (get-asset-name (get-in node [:attrs attrname])) config))))))
+                      (update-in node [:attrs attrname] #(dieter/link-to-asset (get-asset-name %) config))))))
 
 (deftemplate base-view "base.html" [body]
   [:#content]
