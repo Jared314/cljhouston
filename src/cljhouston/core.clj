@@ -4,7 +4,9 @@
             [compojure.route :as route]
             [compojure.handler :as handler]
             [dieter.core :as dieter]
-            [net.cgrand.enlive-html :refer [deftemplate defsnippet content clone-for attr-starts]]))
+            [net.cgrand.enlive-html :refer [deftemplate defsnippet content clone-for attr-starts]]
+            [plumbing.core :refer [fnk]]
+            [plumbing.graph :as graph]))
 
 (def dieter-config-options {
   :engine :v8
@@ -52,12 +54,16 @@
    ["9/27/2012" "Pulling data from a database + Coding"]
    ["10/25/2012" "How to use Enlive"]])
 
-(defn render [] (base-view (index-view members (last meetings))))
+(def render-graph {:base (fnk [index] (base-view index))
+                   :index (fnk [members lastdata] (index-view members lastdata))
+                   :lastdata (fnk [meetings] (last meetings))})
+
+(def render (graph/eager-compile render-graph))
 
 (defroutes site-routes
-  (GET "/" [] (render))
+  (GET "/" [] (:base (render {:members members :meetings meetings})))
   (route/resources "/")
-  (route/not-found (render)))
+  (route/not-found (:base (render {:members members :meetings meetings}))))
 
 (def app (-> site-routes
              handler/site

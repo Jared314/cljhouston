@@ -7,6 +7,7 @@
                  [compojure "1.1.5"]
                  [ring/ring-jetty-adapter "1.1.7"]
                  [enlive "1.1.1"]
-                 [dieter "0.3.0"]]
+                 [dieter "0.3.0"]
+                 [prismatic/plumbing "0.1.0"]]
   :main cljhouston.core
   :min-lein-version "2.0.0")
