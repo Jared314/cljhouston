@@ -58,12 +58,15 @@
                    :index (fnk [members lastdata] (index-view members lastdata))
                    :lastdata (fnk [meetings] (last meetings))})
 
-(def render (graph/eager-compile render-graph))
+(def render-eager (graph/eager-compile render-graph))
+
+(defn render [] (:base (render-eager {:members members
+                                      :meetings meetings})))
 
 (defroutes site-routes
-  (GET "/" [] (:base (render {:members members :meetings meetings})))
+  (GET "/" [] (render))
   (route/resources "/")
-  (route/not-found (:base (render {:members members :meetings meetings}))))
+  (route/not-found (render)))
 
 (def app (-> site-routes
              handler/site
